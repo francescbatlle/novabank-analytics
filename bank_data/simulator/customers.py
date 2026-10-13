@@ -34,7 +34,16 @@ PLAN_WEIGHTS = {
     "ultra": 0.005,
 }
 
-def generate_customers(n_customers: int, seed: int) -> pd.DataFrame:
+# Monthly growth in new signups. Calibrated on Revolut 2025: 16M new customers
+# in the year (~1.33M/month on average) vs ~1.76M/month at year end
+# ("1M new customers every 17 days"). December ~32% above the average month
+# implies ~5-6% monthly growth. We use 5% (conservative end).
+MONTHLY_GROWTH = 0.05
+SIMULATION_START = "2025-01-01"
+SIMULATION_END = "2025-12-31"
+
+
+def generate_customers(n_customers: int, seed: int = 42) -> pd.DataFrame:
     rng = np.random.default_rng(seed)
 
     # Country
@@ -52,6 +61,15 @@ def generate_customers(n_customers: int, seed: int) -> pd.DataFrame:
     plan_probabilities = list(PLAN_WEIGHTS.values())
     plan = rng.choice(plans, size=n_customers, p=plan_probabilities)
 
+    # Signup date: later days are more likely, growing MONTHLY_GROWTH per month
+    start = pd.Timestamp(SIMULATION_START)
+    days = np.arange(365)
+    day_weights = (1 + MONTHLY_GROWTH) ** (days / 30.4)  # ~30.4 days per month
+    day_probabilities = day_weights / day_weights.sum()
+    days_after_start = rng.choice(days, size=n_customers, p=day_probabilities)
+    signup_date = start + pd.to_timedelta(days_after_start, unit="D")
+    signup_date = signup_date.sort_values()  # Earlier customers get lower IDs
+
     # Customer ID
     customer_id = []
     for i in range(1, n_customers + 1):
@@ -59,8 +77,9 @@ def generate_customers(n_customers: int, seed: int) -> pd.DataFrame:
         customer_id.append("C" + number)
 
     return pd.DataFrame({
-        'customer_id': customer_id,
-        'country': country,
-        'acquisition_channel': acquisition_channel,
-        'plan': plan,
+        "customer_id": customer_id,
+        "signup_date": signup_date,
+        "country": country,
+        "acquisition_channel": acquisition_channel,
+        "plan": plan,
     })
