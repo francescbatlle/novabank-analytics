@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: One row per NovaBank customer, cleaned from the raw simulator output.
+    columns:
+      - name: customer_id
+        description: Unique customer identifier (C000001, C000002, ...).
+        data_tests:
+          - unique
+          - not_null
+
+      - name: signup_date
+        description: Date the customer opened the account.
+        data_tests:
+          - not_null
+
+      - name: country_code
+        description: Two-letter country code.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['FR', 'ES', 'IT', 'DE', 'NL']
+
+      - name: acquisition_channel
+        description: How the customer found NovaBank.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['organic', 'referral', 'paid_social', 'partnership']
+
+      - name: plan
+        description: Account plan, free (standard) or paid.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['standard', 'plus', 'premium', 'metal', 'ultra']
