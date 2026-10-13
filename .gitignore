@@ -228,3 +228,7 @@ data/
 # dbt
 dbt/dbt_packages/
 dbt/logs/
+
+# dbt local files
+logs/
+.user.yml
