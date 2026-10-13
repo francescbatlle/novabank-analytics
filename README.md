@@ -6,12 +6,12 @@ NovaBank is a fictional European neobank with 50,000 customers. This project act
 
 | Area | Question |
 |---|---|
-| [Customers](customers/) | Do customers stay? Did the Spain launch increase usage? |
-| [Payments](payments/) | How many payments fail? Does the new checkout improve success rate? |
-| [Fraud](fraud/) | Which payments are fraudulent, and how much does detecting them save? |
-| [Finance](finance/) | How much money will move next month? Do our records match the payment processor? |
-| [Assistant](assistant/) | Can someone without SQL ask the data questions? |
+| [Customers](2_analysis/customers/) | Do customers stay? Did the Spain launch increase usage? |
+| [Payments](2_analysis/payments/) | How many payments fail? Does the new checkout improve success rate? |
+| [Fraud](2_analysis/fraud/) | Which payments are fraudulent, and how much does detecting them save? |
+| [Finance](2_analysis/finance/) | How much money will move next month? Do our records match the payment processor? |
+| [Assistant](2_analysis/assistant/) | Can someone without SQL ask the data questions? |
 
-The data is simulated in [`bank_data/`](bank_data/) with known true effects, so every estimate can be checked against the truth.
+The data is simulated in [`1_data_factory/`](1_data_factory/) with known true effects, so every estimate can be checked against the truth.
 
 _Work in progress._

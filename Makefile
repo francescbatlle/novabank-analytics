@@ -5,12 +5,12 @@
 
 # Generate the simulated NovaBank data into data/raw/
 data:
-	python bank_data/simulator/main.py
+	python 1_data_factory/simulator/main.py
 
 # Build the warehouse: dbt turns the raw data into clean tables
 build:
 	mkdir -p data
-	cd bank_data/dbt && dbt build --profiles-dir .
+	cd 1_data_factory/dbt && dbt build --profiles-dir .
 
 # Check code style with ruff
 lint:
