@@ -1,6 +1,20 @@
 import numpy as np
 import pandas as pd
 
+"""Generate NovaBank's customers table.
+
+Design decisions:
+- All customers sign up within the simulation period (2025), as if NovaBank
+  launched in January. Simplification: no pre-existing customer base.
+- Signups grow MONTHLY_GROWTH per month, calibrated on Revolut 2025 data.
+- Churn is not a column here: a real bank does not know at signup who will
+  leave. It will be simulated through transaction activity instead.
+- Country, channel and plan are independent of signup date, so sorting the
+  dates alone does not bias the other columns.
+"""
+
+
+
 # Customer share by country, based on Revolut's publicly reported
 # retail customers per market (late 2025 / early 2026).
 # FR 7.0M, ES 6.3M, IT ~4.5M (interpolated), DE 3.0M, NL 1.5M.
