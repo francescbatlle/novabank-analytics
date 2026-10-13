@@ -1,7 +1,7 @@
 .PHONY: data build lint test all
 
 data:
-	@echo "Phase 1: simulator goes here"
+	python bank_data/simulator/main.py
 
 build:
 	mkdir -p data
