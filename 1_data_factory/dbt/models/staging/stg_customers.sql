@@ -9,3 +9,4 @@ select
     acquisition_channel,
     plan
 from read_parquet('../../data/raw/customers.parquet')
+ 

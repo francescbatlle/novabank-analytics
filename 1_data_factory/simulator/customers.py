@@ -13,7 +13,8 @@ Design decisions:
   dates alone does not bias the other columns.
 """
 
-
+# Name for the customers table.
+CustomersTable = pd.DataFrame
 
 # Customer share by country, based on Revolut's publicly reported
 # retail customers per market (late 2025 / early 2026).
@@ -53,11 +54,13 @@ PLAN_WEIGHTS = {
 # ("1M new customers every 17 days"). December ~32% above the average month
 # implies ~5-6% monthly growth. We use 5% (conservative end).
 MONTHLY_GROWTH = 0.05
+
+# Simulation period: NovaBank's first full year. Shared by all generators.
 SIMULATION_START = "2025-01-01"
 SIMULATION_END = "2025-12-31"
 
 
-def generate_customers(n_customers: int, seed: int = 42) -> pd.DataFrame:
+def generate_customers(n_customers: int, seed: int = 42) -> CustomersTable:
     rng = np.random.default_rng(seed)
 
     # Country
@@ -90,7 +93,7 @@ def generate_customers(n_customers: int, seed: int = 42) -> pd.DataFrame:
         number = str(i).zfill(6)  # Pad to 6 digits so IDs sort correctly as text
         customer_id.append("C" + number)
 
-    return pd.DataFrame({
+    return CustomersTable({
         "customer_id": customer_id,
         "signup_date": signup_date,
         "country": country,
